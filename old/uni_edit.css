@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'HieroglyphicSMP';
-    src: url('NewGardinerSMP.ttf') format('truetype');
+    src: url('old/NewGardinerSMP.ttf') format('truetype');
 }
 
 body.uni_edit {

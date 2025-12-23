@@ -4,15 +4,15 @@
 
 @font-face {
 	font-family: 'Hieroglyphic';
-	src: url('NewGardiner.ttf') format('truetype');
+	src: url('old/NewGardiner.ttf') format('truetype');
 }
 @font-face {
 	font-family: 'HieroglyphicAux';
-	src: url('HieroglyphicAux.ttf') format('truetype');
+	src: url('old/HieroglyphicAux.ttf') format('truetype');
 }
 @font-face {
 	font-family: 'HieroglyphicPlain';
-	src: url('CaslonRoman.ttf') format('truetype');;
+	src: url('old/CaslonRoman.ttf') format('truetype');;
 }
 
 span.hi {
@@ -68,7 +68,7 @@ span.res_low {
 
 @font-face {
 	font-family: 'Transliteration';
-	src: url('DejaVuSans-Bold.ttf') format('truetype');;
+	src: url('old/DejaVuSans-Bold.ttf') format('truetype');;
 }
 
 span.egytransl {
@@ -81,7 +81,7 @@ span.egytransl {
 
 @font-face {
     font-family: 'HieroglyphicSMP';
-    src: url('NewGardinerSMP.ttf') format('truetype');
+    src: url('old/NewGardinerSMP.ttf') format('truetype');
 }
 
 body.uni_edit {
