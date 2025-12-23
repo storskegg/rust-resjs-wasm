@@ -1,6 +1,8 @@
-mod mnemonics;
+pub mod mnemonics;
 
-pub const MNEMONICS: &[(&str, &str)] = &[
+use std::collections::HashMap;
+
+const MNEMONICS = HashMap::from([
     ("mSa", "A12"),
     ("xr", "A15"),
     ("Xrd", "A17"),
@@ -372,7 +374,7 @@ pub const MNEMONICS: &[(&str, &str)] = &[
     ("nD", "Aa27"),
     ("qd", "Aa28"),
     ("Xkr", "Aa30"),
-];
+]);
 
 /*
 Original JS

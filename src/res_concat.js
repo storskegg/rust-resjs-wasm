@@ -5,17 +5,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // Points and rectangles.
 
-function ResPoint(x, y) {
-	this.x = x;
-	this.y = y;
-}
-ResPoint.fromAngle =
-function(angle, dist) {
-	var theta = 2 * Math.PI * angle;
-	var x = dist * Math.cos(theta);
-	var y = dist * Math.sin(theta);
-	return new ResPoint(x, y);
-};
+
 
 function ResRectangle(x, y, width, height) {
 	this.x = x;

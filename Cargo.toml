@@ -2,5 +2,10 @@
 name = "rust-resjs-wasm"
 version = "0.1.0"
 edition = "2024"
+authors = ["Liam Conrad"]
+description = "A Rust port of Dr Nederhof's resjs javascript package."
+readme = "README.md"
+repository = "https://github.com/storskegg/rust-resjs-wasm"
+publish = false
 
 [dependencies]

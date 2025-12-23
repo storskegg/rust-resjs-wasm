@@ -1,8 +1,15 @@
-mod hiero_to_code_points;
+mod hiero_to_code_points_lut;
+pub mod hiero_to_code_points_lut;
 
 use std::collections::HashMap;
+use std::sync::{LazyLock, Mutex};
 
-const HIERO_POINTS = HashMap::from([
+fn get_code_point(hiero: &str) -> Option<i32> {
+    HIERO_POINTS.lock().unwrap().get(hiero).copied()
+}
+
+const HIERO_POINTS: LazyLock<Mutex<HashMap<&str, Vec<i32>>>> =
+    LazyLock::new(|| Mutex::new(HashMap::from([
     ("A1",    0xE000),
     ("A2",    0xE001),
     ("A3",    0xE002),
@@ -1074,7 +1081,7 @@ const HIERO_POINTS = HashMap::from([
     ("Aa30",  0xE42C),
     ("Aa31",  0xE42D),
     ("Aa32",  0xE42E),
-]);
+])));
 
 
 /**

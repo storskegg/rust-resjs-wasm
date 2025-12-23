@@ -14,6 +14,12 @@ I wanted to do this port, because...
 - I wanted to find out if the shorter load times and slightly faster execution of WASM in spite of increased IO latency
   would outweigh the performance of the original JS implementation.
 
+## License
+
+This repo uses the same [BSD 2-Clause](LICENSE.md) license as the original `resjs` project.
+
+## "I'm a Noob" Disclaimer
+
 Fair warning: My Rust skills are still very intro level, so don't judge my code too harshly. It'll get better. 
 
 ---
