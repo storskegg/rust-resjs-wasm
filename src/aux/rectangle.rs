@@ -81,4 +81,20 @@ impl Rectangle {
         let y = self.y + vertical_surplus /2.0 - other.y;
         Rectangle::new(x, y, other.width, other.height)
     }
+
+    pub fn x(&self) -> f64 {
+        self.x
+    }
+
+    pub fn y(&self) -> f64 {
+        self.y
+    }
+
+    pub fn width(&self) -> f64 {
+        self.width
+    }
+
+    pub fn height(&self) -> f64 {
+        self.height
+    }
 }
