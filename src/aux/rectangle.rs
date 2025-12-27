@@ -3,23 +3,23 @@ pub mod aux;
 use std::clone::*;
 
 #[derive(Copy, Clone)]
-pub struct ResRectangle {
+pub struct Rectangle {
     x: f64,
     y: f64,
     width: f64,
     height: f64,
 }
 
-pub fn new_res_rectangle(x: f64, y: f64, width: f64, height: f64) -> ResRectangle {
-    ResRectangle { x, y, width, height }
+pub fn new_rectangle(x: f64, y: f64, width: f64, height: f64) -> Rectangle {
+    Rectangle { x, y, width, height }
 }
 
-impl ResRectangle {
-    pub fn mirror(&self, width: f64) -> ResRectangle {
+impl Rectangle {
+    pub fn mirror(&self, width: f64) -> Rectangle {
         new_res_rectangle(width - self.x - self.width, self.y, self.width, self.height)
     }
 
-    pub fn intersect(&self, other: &ResRectangle) -> ResRectangle {
+    pub fn intersect(&self, other: &Rectangle) -> Rectangle {
         let x_left = self.x.max(other.x);
         let x_right = (self.x + self.width).min(other.x + other.width);
         let y_top = self.y.max(other.y);
@@ -29,7 +29,7 @@ impl ResRectangle {
         new_res_rectangle(x_left, y_top, w, h)
     }
 
-    pub fn intersects(&self, other: &ResRectangle) -> bool {
+    pub fn intersects(&self, other: &Rectangle) -> bool {
         self.intersect(other).width > 0.0 && self.intersect(other).height > 0.0
     }
 
@@ -37,23 +37,23 @@ impl ResRectangle {
         self.x <= x && x < self.x + self.width && self.y <= y && y < self.y + self.height
     }
 
-    pub fn chop_start_h(&self, x: f64) -> ResRectangle {
+    pub fn chop_start_h(&self, x: f64) -> Rectangle {
         new_res_rectangle(self.x, self.y, x - self.x, self.height)
     }
 
-    pub fn chop_end_h(&self, x: f64) -> ResRectangle {
+    pub fn chop_end_h(&self, x: f64) -> Rectangle {
         new_res_rectangle(x, self.y, self.width - x + self.x, self.height)
     }
 
-    pub fn chop_start_v(&self, y: f64) -> ResRectangle {
+    pub fn chop_start_v(&self, y: f64) -> Rectangle {
         new_res_rectangle(self.x, self.y, self.width, y - self.y)
     }
 
-    pub fn chop_end_v(&self, y: f64) -> ResRectangle {
+    pub fn chop_end_v(&self, y: f64) -> Rectangle {
         new_res_rectangle(self.x, y, self.width, self.height - y + self.y)
     }
 
-    pub fn chop_pattern(&self, pattern: &str) -> ResRectangle {
+    pub fn chop_pattern(&self, pattern: &str) -> Rectangle {
         let mut result = self.clone();
 
         for c in pattern.chars() {
@@ -77,7 +77,7 @@ impl ResRectangle {
         result
     }
 
-    pub fn center(&self, other: &ResRectangle) -> ResRectangle {
+    pub fn center(&self, other: &Rectangle) -> Rectangle {
         let horizontal_surplus = self.width - other.width;
         let vertical_surplus = self.height - other.height;
         let x = self.x + horizontal_surplus /2.0 - other.x;

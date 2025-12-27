@@ -27,7 +27,7 @@ pub fn get_font_text(font: &Fonts) -> &'static str {
     }
 }
 
-pub struct ResContext {
+pub struct Context {
     // fonts
     pub fonts: Vec<Fonts>,
     // unit font size
@@ -71,10 +71,10 @@ pub struct ResContext {
     pub dir: Option<String>, // for RESlite can be null, "lr", "rl"
 }
 
-pub fn default_res_context() -> ResContext {
+pub fn default_context() -> Context {
     let fonts: Vec<Fonts> = [Fonts::Hieroglyphic, Fonts::HieroglyphicAux, Fonts::HieroglyphicPlain].to_vec();
 
-    ResContext{
+    Context {
         // fonts
         fonts,
         // unit font size
@@ -118,7 +118,7 @@ pub fn default_res_context() -> ResContext {
     }
 }
 
-impl ResContext {
+impl Context {
     pub fn mil_em_to_px(&self, size_mil_em: f64) -> f64 {
         size_mil_em * self.em_size_px / 1000.0
     }
