@@ -1,24 +1,6 @@
+pub mod aux;
+
 use std::clone::*;
-
-#[derive(Copy, Clone)]
-pub struct ResPoint {
-    x: f64,
-    y: f64,
-}
-
-pub fn new_res_point(x: f64, y: f64) -> Box<ResPoint> {
-    let p = ResPoint { x, y };
-
-    Box::new(p)
-}
-
-pub fn new_res_point_from_angle(angle: f64, dist: f64) -> Box<ResPoint> {
-    let theta: f64 = 2.0 * std::f64::consts::PI * angle;
-    let x: f64 = dist * theta.cos();
-    let y: f64 = dist * theta.sin();
-
-    new_res_point(x, y)
-}
 
 #[derive(Copy, Clone)]
 pub struct ResRectangle {
@@ -94,7 +76,7 @@ impl ResRectangle {
 
         result
     }
-    
+
     pub fn center(&self, other: &ResRectangle) -> ResRectangle {
         let horizontal_surplus = self.width - other.width;
         let vertical_surplus = self.height - other.height;

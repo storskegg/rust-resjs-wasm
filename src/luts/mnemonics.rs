@@ -1,4 +1,4 @@
-pub mod mnemonics;
+pub mod luts;
 
 use std::collections::HashMap;
 

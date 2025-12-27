@@ -8,4 +8,19 @@ readme = "README.md"
 repository = "https://github.com/storskegg/rust-resjs-wasm"
 publish = false
 
+[lib]
+crate-type = ["cdylib"]
+
 [dependencies]
+log = { version = "0.4.29", optional = true}
+wasm-bindgen = "0.2.106"
+web-sys = { version = "0.3.83", features = ["console"], optional = true }
+
+[target.'cfg(target_arch = "wasm32")'.features]
+default-features = false  # Disable the global `default` features
+features = ["wasm-logger"]  # Enable `wasm-logger` by default for WASM
+
+[features]
+default = ["native-logger"]
+native-logger = ["log"]
+wasm-logger = ["web-sys"]

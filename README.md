@@ -22,6 +22,20 @@ This repo uses the same [BSD 2-Clause](LICENSE.md) license as the original `resj
 
 Fair warning: My Rust skills are still very intro level, so don't judge my code too harshly. It'll get better. 
 
+# General Notes
+
+## Modular JS libs in `res_concat.js`
+
+- aux
+- points
+- lite
+- struct
+- syntax
+- format
+- render
+- web
+
+
 ---
 
 # Original README.md from https://github.com/nederhof/resjs

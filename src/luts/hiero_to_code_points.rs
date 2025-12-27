@@ -1,5 +1,4 @@
-mod hiero_to_code_points_lut;
-pub mod hiero_to_code_points_lut;
+pub mod luts;
 
 use std::collections::HashMap;
 use std::sync::{LazyLock, Mutex};
