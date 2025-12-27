@@ -1,1 +1,1 @@
-mod lite; pub use self::lite::*;
+mod lite; pub use lite::*;

@@ -1,1 +1,1 @@
-mod web; pub use self::web::*;
+mod web; pub use web::*;

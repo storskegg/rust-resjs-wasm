@@ -1,1 +1,1 @@
-mod syntax; pub use self::syntax::*;
+mod syntax; pub use syntax::*;
