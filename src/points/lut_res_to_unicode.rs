@@ -3,7 +3,7 @@ pub mod points;
 use std::collections::HashMap;
 use std::sync::{LazyLock, Mutex};
 
-fn get_code_point(hiero: &str) -> Option<i32> {
+pub fn get_code_point(hiero: &str) -> Option<i32> {
     HIERO_POINTS.lock().unwrap().get(hiero).copied()
 }
 
