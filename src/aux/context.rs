@@ -1,4 +1,5 @@
 pub use std::clone::*;
+use std::iter::Map;
 use points::*;
 use crate::points;
 
@@ -71,6 +72,8 @@ pub struct Context {
     pub dir: Option<String>, // for RESlite can be null, "lr", "rl"
 
     pub aux_points: points::AuxPoints,
+
+    catToNames: Option<Map<&'static str, Vec<&'static str>>>,
 }
 
 impl Context {
@@ -120,6 +123,7 @@ impl Context {
             dir: None,
 
             aux_points: AuxPoints::new(),
+            catToNames: None,
         }
     }
 
@@ -135,7 +139,7 @@ impl Context {
         }
     }
 
-    pub fn un_mnemonic<'a>(&self, code: &'a str) -> Option<&'a str> {
+    pub fn un_mnemonic(&self, code: &'static str) -> Option<&'static str> {
         let key = get_mnemonic_res(code);
         match key {
             Some(key) => Some(key),
@@ -143,11 +147,38 @@ impl Context {
         }
     }
 
-    pub fn un_bracket<'a>(&self, code: &'a str) -> Option<&'a str> {
+    pub fn un_bracket(&self, code: &'static str) -> Option<&'static str> {
         match code {
             "open" => Some("V11a"),
             "close" => Some("V11b"),
             _ => Some(code.clone()),
         }
     }
+
+    fn make_cat_to_names(&self) {
+        // let iter = points::HIERO_POINTS.lock().unwrap().keys();
+        // for x in iter {
+        //
+        // }
+    }
 }
+
+/*
+// Mapping from category to ordered list of names, after call of ResContext.makeCatToNames.
+ResContext.makeCatToNames = function() {
+	for (var name in ResContext.hieroPoints) {
+		var parts = ResContext.catNameStructure.exec(name);
+		var cat = parts[1];
+		if (ResContext.catToNames[cat] === undefined)
+			ResContext.catToNames[cat] = [];
+		ResContext.catToNames[cat].push(name);
+	}
+	for (var i = 0; i < ResContext.categories.length; i++) {
+		var cat = ResContext.categories[i];
+		ResContext.catToNames[cat].sort(ResContext.compareSignNames);
+	}
+	ResContext.catToNames["tall"] = ResContext.tallSigns;
+	ResContext.catToNames["broad"] = ResContext.broadSigns;
+	ResContext.catToNames["narrow"] = ResContext.narrowSigns;
+};
+ */

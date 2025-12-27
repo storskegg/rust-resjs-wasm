@@ -4,7 +4,7 @@
 
 use std::convert::AsRef;
 
-pub static TALL_SIGNS: &'static [&str] = &[
+pub static TALL_SIGNS: &'static [&'static str] = &[
     "M40","Aa28","Aa29","P11","D16","T34","T35","U28",
     "U29","U32","U33","S43","U36","T8","T8a","M13","M17",
     "H6","H6a","M4","M12","S29","M29","M30","S37","R14",
@@ -20,7 +20,7 @@ pub static TALL_SIGNS: &'static [&str] = &[
     "Aa32","V28","V29",
 ];
 
-pub static BROAD_SIGNS: &'static [&str] = &[
+pub static BROAD_SIGNS: &'static [&'static str] = &[
     "N1","N37","N38","N39","S32","N18","X4","X5",
     "N17","N16","N20","Aa10","Aa11","Aa12","Aa13","Aa14",
     "Aa15","N35","Aa8","Aa9","V26","V27","R24","W8",
@@ -36,7 +36,7 @@ pub static BROAD_SIGNS: &'static [&str] = &[
     "O43","V16",
 ];
 
-pub static NARROW_SIGNS: &'static [&str] = &[
+pub static NARROW_SIGNS: &'static [&'static str] = &[
     "Q3","O39","Z8","O47","N22","N21","N23","N29",
     "X7","O45","O46","Y6","M35","X3","X2","X1",
     "N28","Aa17","I6","W10","W10a","Aa4","R7","M39",
@@ -50,18 +50,18 @@ pub static NARROW_SIGNS: &'static [&str] = &[
     "N15","M42","F38","V1","Z7","Aa16","Z9","Z10",
 ];
 
-pub static CATEGORIES: &'static [&str] = &[
+pub static CATEGORIES: &'static [&'static str] = &[
     "A","B","C","D","E","F","G","H","I",
     "K","L","M","N","NL","NU","O","P","Q","R","S","T","U","V",
     "W","X","Y","Z","Aa",
 ];
 
-pub static EXTRA_CATEGORIES: &'static [&str] = &[
+pub static EXTRA_CATEGORIES: &'static [&'static str] = &[
     "tall","broad","narrow",
 ];
 
 // TODO: Examine the code that makes use of this to see about refactoring to use both of the above arrays
-pub static CATEGORIES_AND_EXTRA: &'static [&str] = &[
+pub static CATEGORIES_AND_EXTRA: &'static [&'static str] = &[
     "A","B","C","D","E","F","G","H","I",
     "K","L","M","N","NL","NU","O","P","Q","R","S","T","U","V",
     "W","X","Y","Z","Aa","tall","broad","narrow",

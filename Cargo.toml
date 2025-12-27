@@ -8,19 +8,43 @@ readme = "README.md"
 repository = "https://github.com/storskegg/rust-resjs-wasm"
 publish = false
 
+[[bin]]
+name = "scratch_map_iter"
+path = "scratch/map_iter/src/main.rs"
+
 [lib]
 crate-type = ["cdylib"]
+name = "rust_resjs_wasm"
+path = "src/lib.rs"
 
 [dependencies]
+js-sys = { version = "0.3.83", optional = true }
 log = { version = "0.4.29", optional = true}
+phf = { version = "0.13.1", features = ["macros"] }
+regex = "1.12.2"
+regex_static = "0.1.1"
+serde = { version = "1.0.228", optional = true }
+serde_json = { version = "1.0.148" , optional = true}
 wasm-bindgen = "0.2.106"
-web-sys = { version = "0.3.83", features = ["console"], optional = true }
+
+[dependencies.web-sys]
+version = "0.3.83"
+features = [
+    "console",
+    "Attr",
+    "CanvasRenderingContext2d",
+    "Document",
+    "Element",
+    "Event",
+    "EventTarget",
+    "HtmlCanvasElement",
+    "HtmlElement",
+    "HtmlInputElement",
+    "Node",
+    "Text",
+    "Window"
+]
 
 [target.'cfg(target_arch = "wasm32")'.features]
 default-features = false  # Disable the global `default` features
 features = ["wasm-logger"]  # Enable `wasm-logger` by default for WASM
-
-[features]
-default = ["native-logger"]
-native-logger = ["log"]
-wasm-logger = ["web-sys"]

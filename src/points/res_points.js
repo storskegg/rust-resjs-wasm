@@ -4,28 +4,8 @@
 
 
 
-ResContext.catNameStructure = /^([A-I]|[K-Z]|(?:Aa)|(?:NL)|(?:NU))([1-9](?:[0-9][0-9]?)?)([a-z]?)$/;
-ResContext.nonCatNameStructure = /^(("([^\t\n\r\f\b"\\]|(\\")|(\\\\))")|(0|([1-9]([0-9][0-9]?)?)))$/;
-ResContext.mnemonicStructure = /^[a-zA-Z]+$/;
-// Mapping from category to ordered list of names, after call of ResContext.makeCatToNames.
-ResContext.catToNames = {};
-ResContext.makeCatToNames =
-function() {
-	for (var name in ResContext.hieroPoints) {
-		var parts = ResContext.catNameStructure.exec(name);
-		var cat = parts[1];
-		if (ResContext.catToNames[cat] === undefined)
-			ResContext.catToNames[cat] = [];
-		ResContext.catToNames[cat].push(name);
-	}
-	for (var i = 0; i < ResContext.categories.length; i++) {
-		var cat = ResContext.categories[i];
-		ResContext.catToNames[cat].sort(ResContext.compareSignNames);
-	}
-	ResContext.catToNames["tall"] = ResContext.tallSigns;
-	ResContext.catToNames["broad"] = ResContext.broadSigns;
-	ResContext.catToNames["narrow"] = ResContext.narrowSigns;
-};
+
+
 ResContext.compareSignNames =
 function(name1, name2) {
 	var parts1 = ResContext.catNameStructure.exec(name1);

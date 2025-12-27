@@ -8,7 +8,7 @@ pub fn get_code_point(hiero: &str) -> Option<i32> {
 type Res2UnicodeMap<'a> = HashMap<&'a str, i32>;
 type ConstRes2UnicodeMap = LazyLock<Mutex<Res2UnicodeMap<'static>>>;
 
-static HIERO_POINTS: ConstRes2UnicodeMap =
+pub static HIERO_POINTS: ConstRes2UnicodeMap =
     LazyLock::new(|| Mutex::new(HashMap::from([
     ("A1",    0xE000),
     ("A2",    0xE001),
