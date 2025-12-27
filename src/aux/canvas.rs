@@ -1,17 +1,42 @@
-struct Canvas {}
+use wasm_bindgen::prelude::wasm_bindgen;
+use web_sys::Element;
+use crate::get_document;
+
+#[wasm_bindgen]
+struct Canvas {
+    el_ctx: Option<web_sys::CanvasRenderingContext2d>,
+}
 
 impl Canvas {
     pub fn new() -> Self {
-        Self {}
+        Self {
+            el_ctx: None,
+        }
     }
 
-    fn make(width: f32, height: f32) -> Self {
-        Self {}
+    /// Make canvas with sizes, which must be at least 1.
+    fn make(width: f64, height: f64) -> &'static Element {
+        let _document = get_document();
+
+        let _width: f64 = width.max(1.0);
+        let _height: f64 = height.max(1.0);
+
+        let el_canvas = _document.create_element("canvas").expect("could not create <canvas>");
+        el_canvas.set_attribute("width", &format!("{}", _width)).expect("could not set width of <canvas>");
+        el_canvas.set_attribute("height", &format!("{}", _height)).expect("could not set height of <canvas>");
+
+        el_canvas.
+
+        &el_canvas
     }
 
-    fn clear(&self) {
-
+    /// Clear canvas.
+    fn clear(&mut self, canvas: &Element) {
+        self.el_ctx = canvas.get_context("2d");
+        self.el_ctx.unwrap().clear_rect(0.0, 0.0, canvas.width(), canvas.height());
     }
+
+    // fn is_not_blank(&self, data) [}]
 }
 
 /*
@@ -19,21 +44,10 @@ impl Canvas {
 // Canvas operations.
 
 
-// Make canvas with sizes, which must be at least 1.
-ResCanvas.make =
-function(width, height) {
-	var canvas = document.createElement("canvas");
-	canvas.width = Math.max(Math.round(width), 1);
-	canvas.height = Math.max(Math.round(height), 1);
-	return canvas;
-};
 
-// Clear canvas.
-ResCanvas.clear =
-function(canvas) {
-	this.ctx = canvas.getContext("2d");
-	this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-};
+
+
+
 
 // Sum all values from pixel in data from canvas with dimensions.
 // return: if there is non-blank pixel.

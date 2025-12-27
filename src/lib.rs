@@ -1,4 +1,6 @@
 use crate::app::log_message;
+use web_sys::{Document};
+// use web_sys::Document;
 use wasm_bindgen::prelude::*;
 
 pub mod app;
@@ -16,3 +18,7 @@ pub fn greet() {
     log_message("Hello, console!");
 }
 
+pub fn get_document() -> &'static Document {
+    let window = web_sys::window().expect("no global `window` exists");
+    &window.document().expect("should have a document on window")
+}
