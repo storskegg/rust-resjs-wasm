@@ -132,11 +132,19 @@ impl Context {
         }
     }
 
-    pub fn un_mnemonic(code: &str) -> Option<&str> {
+    pub fn un_mnemonic(&self, code: &str) -> Option<&str> {
         let key = get_mnemonic_res(code);
         match key {
             Some(key) => Some(key),
             None => Some(code),
+        }
+    }
+
+    pub fn un_bracket(&self, code: &str) -> Option<&str> {
+        match code {
+            "open" => Some("V11a"),
+            "close" => Some("V11b"),
+            _ => Some(code),
         }
     }
 }

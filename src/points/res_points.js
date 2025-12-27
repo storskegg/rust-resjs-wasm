@@ -1,14 +1,6 @@
 
 
-ResContext.unBracket =
-function(code) {
-	if (code == "open")
-		return "V11a";
-	else if (code == "close")
-		return "V11b";
-	else
-		return code;
-};
+
 
 ResContext.auxPoints = {
 open:35,
