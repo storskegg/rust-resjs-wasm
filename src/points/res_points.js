@@ -2,40 +2,7 @@
 
 
 
-ResContext.auxPoints = {
-open:35,
-close:36,
-cartoucheopen:35,
-cartouchesegment:37,
-cartoucheclose:36,
-ovalopen:35,
-ovalsegment:37,
-ovalclose:41,
-serekhopen:38,
-serekhsegment:37,
-serekhclose:40,
-inbopen:42,
-inbsegment:44,
-inbclose:43,
-rectangleopen:38,
-rectanglesegment:37,
-rectangleclose:39,
-Hwtopenoveropen:45,
-Hwtopenoversegment:37,
-Hwtopenoverclose:39,
-Hwtopenunderopen:46,
-Hwtopenundersegment:37,
-Hwtopenunderclose:39,
-Hwtcloseoveropen:38,
-Hwtcloseoversegment:37,
-Hwtcloseoverclose:47,
-Hwtcloseunderopen:38,
-Hwtcloseundersegment:37,
-Hwtcloseunderclose:48,
-hlr:49,
-hrl:50,
-vlr:51,
-vrl:52};
+
 
 ResContext.prototype.hieroPoints = ResContext.hieroPoints;
 ResContext.prototype.mnemonics = ResContext.mnemonics;

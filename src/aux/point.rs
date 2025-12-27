@@ -1,5 +1,3 @@
-pub mod aux;
-
 use std::clone::*;
 
 #[derive(Copy, Clone)]

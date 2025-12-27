@@ -1,16 +1,14 @@
-pub mod points;
-
 use std::collections::HashMap;
-use std::sync::LazyLock;
+use std::sync::{LazyLock, Mutex};
 
 pub fn get_mnemonic_res(mnemonic: &str) -> Option<&str> {
     MNEMONICS.lock().unwrap().get(mnemonic).copied()
 }
 
-type Mnemonic2ResMap = HashMap<&str, &str>;
-type ConstMnemonix2ResMap = LazyLock<Mutex<Mnemonic2ResMap>>;
+type Mnemonic2ResMap<'a> = HashMap<&'a str, &'a str>;
+type ConstMnemonic2ResMap = LazyLock<Mutex<Mnemonic2ResMap<'static>>>;
 
-const MNEMONICS: ConstMnemonix2ResMap =
+static MNEMONICS: ConstMnemonic2ResMap =
     LazyLock::new(|| Mutex::new(HashMap::from([
     ("mSa", "A12"),
     ("xr", "A15"),

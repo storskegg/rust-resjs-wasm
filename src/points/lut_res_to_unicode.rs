@@ -1,5 +1,3 @@
-pub mod points;
-
 use std::collections::HashMap;
 use std::sync::{LazyLock, Mutex};
 
@@ -7,10 +5,10 @@ pub fn get_code_point(hiero: &str) -> Option<i32> {
     HIERO_POINTS.lock().unwrap().get(hiero).copied()
 }
 
-type Res2UnicodeMap = HashMap<&str, i32>;
-type ConstRes2UnicodeMap = LazyLock<Mutex<Res2UnicodeMap>>;
+type Res2UnicodeMap<'a> = HashMap<&'a str, i32>;
+type ConstRes2UnicodeMap = LazyLock<Mutex<Res2UnicodeMap<'static>>>;
 
-const HIERO_POINTS: ConstRes2UnicodeMap =
+static HIERO_POINTS: ConstRes2UnicodeMap =
     LazyLock::new(|| Mutex::new(HashMap::from([
     ("A1",    0xE000),
     ("A2",    0xE001),
@@ -1086,7 +1084,7 @@ const HIERO_POINTS: ConstRes2UnicodeMap =
 ])));
 
 
-/**
+/*
 Original JS
 
 ResContext.hieroPoints = {

@@ -1,9 +1,8 @@
-pub mod aux;
-
 pub use std::clone::*;
 use points::*;
+use crate::points;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum Fonts {
     Hieroglyphic,
     HieroglyphicAux,
@@ -70,56 +69,60 @@ pub struct Context {
 
     // forced direction
     pub dir: Option<String>, // for RESlite can be null, "lr", "rl"
-}
 
-pub fn default_context() -> Context {
-    let fonts: Vec<Fonts> = [Fonts::Hieroglyphic, Fonts::HieroglyphicAux, Fonts::HieroglyphicPlain].to_vec();
-
-    Context {
-        // fonts
-        fonts,
-        // unit font size
-        em_size_px: 36.0,
-        // note size
-        note_size_px: 12.0,
-
-        // separation between groups
-        op_sep_em: 0.15,
-        box_sep_em: 0.04,
-        padding_factor: 1.0,
-        padding_allowed: false,
-
-        // shading
-        shading_sep: 4.0,
-        shading_thickness: 1.0,
-        shading_color: "gray".to_string(),
-        shading_pattern: "x_is_y".to_string(),
-
-        // formatting
-        iterate_limit: 4.0,
-        scale_limit_em: 0.01,
-
-        // insert
-        scale_init: 0.05,
-        scale_step: 1.0,
-        scale_step_min: 0.02,
-        scale_step_factor: 0.4,
-        move_step_min: 0.02,
-        move_step_factor: 0.6,
-
-        // rendering
-        margin_px: 2.0,
-        box_overlap_px: 1.0,
-
-        note_color: "black".to_string(),
-        note_margin: 2.0,
-
-        // forced direction
-        dir: None,
-    }
+    pub aux_points: points::AuxPoints,
 }
 
 impl Context {
+    pub fn new() -> Self {
+        let fonts: Vec<Fonts> = [Fonts::Hieroglyphic, Fonts::HieroglyphicAux, Fonts::HieroglyphicPlain].to_vec();
+
+        Context {
+            // fonts
+            fonts,
+            // unit font size
+            em_size_px: 36.0,
+            // note size
+            note_size_px: 12.0,
+
+            // separation between groups
+            op_sep_em: 0.15,
+            box_sep_em: 0.04,
+            padding_factor: 1.0,
+            padding_allowed: false,
+
+            // shading
+            shading_sep: 4.0,
+            shading_thickness: 1.0,
+            shading_color: "gray".to_string(),
+            shading_pattern: "x_is_y".to_string(),
+
+            // formatting
+            iterate_limit: 4.0,
+            scale_limit_em: 0.01,
+
+            // insert
+            scale_init: 0.05,
+            scale_step: 1.0,
+            scale_step_min: 0.02,
+            scale_step_factor: 0.4,
+            move_step_min: 0.02,
+            move_step_factor: 0.6,
+
+            // rendering
+            margin_px: 2.0,
+            box_overlap_px: 1.0,
+
+            note_color: "black".to_string(),
+            note_margin: 2.0,
+
+            // forced direction
+            dir: None,
+
+            aux_points: AuxPoints::new(),
+        }
+    }
+
     pub fn mil_em_to_px(&self, size_mil_em: f64) -> f64 {
         size_mil_em * self.em_size_px / 1000.0
     }
@@ -132,19 +135,19 @@ impl Context {
         }
     }
 
-    pub fn un_mnemonic(&self, code: &str) -> Option<&str> {
+    pub fn un_mnemonic<'a>(&self, code: &'a str) -> Option<&'a str> {
         let key = get_mnemonic_res(code);
         match key {
             Some(key) => Some(key),
-            None => Some(code),
+            None => Some(code.clone()),
         }
     }
 
-    pub fn un_bracket(&self, code: &str) -> Option<&str> {
+    pub fn un_bracket<'a>(&self, code: &'a str) -> Option<&'a str> {
         match code {
             "open" => Some("V11a"),
             "close" => Some("V11b"),
-            _ => Some(code),
+            _ => Some(code.clone()),
         }
     }
 }
