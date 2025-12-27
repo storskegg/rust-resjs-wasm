@@ -1,9 +1,5 @@
 
-ResContext.unMnemonic =
-function(code) {
-	var key = ResContext.mnemonics[code];
-	return key ? key : code;
-};
+
 ResContext.unBracket =
 function(code) {
 	if (code == "open")

@@ -1,6 +1,7 @@
 pub mod aux;
 
 pub use std::clone::*;
+use points::*;
 
 #[derive(Clone)]
 pub enum Fonts {
@@ -128,6 +129,14 @@ impl Context {
             f64::MAX // HAHAHA ja probably not. But here for good practice and to be safe :-)
         } else {
             1000.0 * size_px / self.em_size_px
+        }
+    }
+
+    pub fn un_mnemonic(code: &str) -> Option<&str> {
+        let key = get_mnemonic_res(code);
+        match key {
+            Some(key) => Some(key),
+            None => Some(code),
         }
     }
 }
