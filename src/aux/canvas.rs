@@ -1,5 +1,5 @@
 use wasm_bindgen::prelude::wasm_bindgen;
-use web_sys::Element;
+use web_sys::{self, Element};
 use crate::get_document;
 
 #[wasm_bindgen]
@@ -24,8 +24,6 @@ impl Canvas {
         let el_canvas = _document.create_element("canvas").expect("could not create <canvas>");
         el_canvas.set_attribute("width", &format!("{}", _width)).expect("could not set width of <canvas>");
         el_canvas.set_attribute("height", &format!("{}", _height)).expect("could not set height of <canvas>");
-
-        el_canvas.
 
         &el_canvas
     }

@@ -12,12 +12,30 @@ publish = false
 crate-type = ["cdylib"]
 
 [dependencies]
-js-sys = "0.3.83"
+js-sys = { version = "0.3.83", optional = true }
 log = { version = "0.4.29", optional = true}
-serde = "1.0.228"
-serde_json = "1.0.148"
+serde = { version = "1.0.228", optional = true }
+serde_json = { version = "1.0.148" , optional = true}
 wasm-bindgen = "0.2.106"
-web-sys = {version = "0.3.83", optional = true, features = ["console", "Attr", "CanvasRenderingContext2d", "Document", "Element", "Event", "EventTarget", "HtmlCanvasElement", "HtmlElement", "HtmlInputElement", "Node", "Text", "Window"]}
+
+[dependencies.web-sys]
+version = "0.3.83"
+optional = true
+features = [
+    "console",
+    "Attr",
+    "CanvasRenderingContext2d",
+    "Document",
+    "Element",
+    "Event",
+    "EventTarget",
+    "HtmlCanvasElement",
+    "HtmlElement",
+    "HtmlInputElement",
+    "Node",
+    "Text",
+    "Window"
+]
 
 [target.'cfg(target_arch = "wasm32")'.features]
 default-features = false  # Disable the global `default` features
