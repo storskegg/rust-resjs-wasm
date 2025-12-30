@@ -1,10 +1,6 @@
-// Source - https://stackoverflow.com/a
-// Posted by Chris Morgan, modified by community. See post 'Timeline' for change history
-// Retrieved 2025-12-27, License - CC BY-SA 3.0
+use phf::phf_ordered_set;
 
-use std::convert::AsRef;
-
-pub static TALL_SIGNS: &'static [&'static str] = &[
+pub static TALL_SIGNS: phf::OrderedSet<&'static str> = phf_ordered_set! {
     "M40","Aa28","Aa29","P11","D16","T34","T35","U28",
     "U29","U32","U33","S43","U36","T8","T8a","M13","M17",
     "H6","H6a","M4","M12","S29","M29","M30","S37","R14",
@@ -18,9 +14,9 @@ pub static TALL_SIGNS: &'static [&'static str] = &[
     "F31","M32","L7","V17","V18","S34","V39","Q7",
     "T18","T19","T20","R21","R11","O28","O11","O36",
     "Aa32","V28","V29",
-];
+};
 
-pub static BROAD_SIGNS: &'static [&'static str] = &[
+pub static BROAD_SIGNS: phf::OrderedSet<&'static str> = phf_ordered_set! {
     "N1","N37","N38","N39","S32","N18","X4","X5",
     "N17","N16","N20","Aa10","Aa11","Aa12","Aa13","Aa14",
     "Aa15","N35","Aa8","Aa9","V26","V27","R24","W8",
@@ -34,9 +30,9 @@ pub static BROAD_SIGNS: &'static [&'static str] = &[
     "N31","O31","N36","D14","D21","D22","T30","T31",
     "T33","D48","V30","V31","W3","S12","N30","O42",
     "O43","V16",
-];
+};
 
-pub static NARROW_SIGNS: &'static [&'static str] = &[
+pub static NARROW_SIGNS: phf::OrderedSet<&'static str> = phf_ordered_set! {
     "Q3","O39","Z8","O47","N22","N21","N23","N29",
     "X7","O45","O46","Y6","M35","X3","X2","X1",
     "N28","Aa17","I6","W10","W10a","Aa4","R7","M39",
@@ -48,21 +44,21 @@ pub static NARROW_SIGNS: &'static [&'static str] = &[
     "N33","D12","S21","N5","N9","N10","Aa1","O50",
     "O49","O48","X6","V9","S10","N6","N8","S11",
     "N15","M42","F38","V1","Z7","Aa16","Z9","Z10",
-];
+};
 
-pub static CATEGORIES: &'static [&'static str] = &[
+pub static CATEGORIES: phf::OrderedSet<&'static str> = phf_ordered_set! {
     "A","B","C","D","E","F","G","H","I",
     "K","L","M","N","NL","NU","O","P","Q","R","S","T","U","V",
     "W","X","Y","Z","Aa",
-];
+};
 
-pub static EXTRA_CATEGORIES: &'static [&'static str] = &[
+pub static EXTRA_CATEGORIES: phf::OrderedSet<&'static str> = phf_ordered_set! {
     "tall","broad","narrow",
-];
+};
 
 // TODO: Examine the code that makes use of this to see about refactoring to use both of the above arrays
-pub static CATEGORIES_AND_EXTRA: &'static [&'static str] = &[
+pub static CATEGORIES_AND_EXTRA: phf::OrderedSet<&'static str> = phf_ordered_set! {
     "A","B","C","D","E","F","G","H","I",
     "K","L","M","N","NL","NU","O","P","Q","R","S","T","U","V",
     "W","X","Y","Z","Aa","tall","broad","narrow",
-];
+};
