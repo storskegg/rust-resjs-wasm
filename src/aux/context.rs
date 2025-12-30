@@ -1,6 +1,7 @@
 pub use std::clone::*;
 use std::iter::Map;
 use points::*;
+use crate::aux::{shading, ShadingPattern};
 use crate::points;
 
 #[derive(Clone, Debug)]
@@ -46,7 +47,7 @@ pub struct Context {
     pub shading_sep: f64,
     pub shading_thickness: f64,
     pub shading_color: String,
-    pub shading_pattern: String, // is one of "x_is_y", "x_is_minus_y"
+    pub shading_pattern: shading::ShadingPattern, // is one of "x_is_y", "x_is_minus_y"
 
     // formatting
     pub iterate_limit: f64, // how often attempted to scaled down group
@@ -98,7 +99,7 @@ impl Context {
             shading_sep: 4.0,
             shading_thickness: 1.0,
             shading_color: "gray".to_string(),
-            shading_pattern: "x_is_y".to_string(),
+            shading_pattern: ShadingPattern::XIsY,
 
             // formatting
             iterate_limit: 4.0,
