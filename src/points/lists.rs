@@ -56,7 +56,7 @@ pub static EXTRA_CATEGORIES: phf::OrderedSet<&'static str> = phf_ordered_set! {
     "tall","broad","narrow",
 };
 
-// TODO: Examine the code that makes use of this to see about refactoring to use both of the above arrays
+// It's worth noting that the following cannot be DRY'd. phf relies on compile-time code generation.
 pub static CATEGORIES_AND_EXTRA: phf::OrderedSet<&'static str> = phf_ordered_set! {
     "A","B","C","D","E","F","G","H","I",
     "K","L","M","N","NL","NU","O","P","Q","R","S","T","U","V",

@@ -1,4 +1,12 @@
-pub struct FragmentArgs {}
+use crate::structure::{Direction, Globals};
+
+pub struct FragmentArgs {
+    globals: Globals,
+    direction: Direction,
+    size: f64,
+    switchs: String,
+    hiero: String
+}
 
 
 pub struct Fragment {}
