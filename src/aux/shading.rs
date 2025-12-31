@@ -9,11 +9,10 @@ pub enum ShadingPattern {
 
 impl PartialEq for ShadingPattern {
     fn eq(&self, other: &Self) -> bool {
-        if self == &ShadingPattern::XIsY && other == &ShadingPattern::XIsY {
-            return true
-        }
+        self == other
 
-        false
+        // (self == &ShadingPattern::XIsY && other == &ShadingPattern::XIsY) ||
+        //     (self == &ShadingPattern::XIsMinusY && other == &ShadingPattern::XIsMinusY)
     }
 }
 

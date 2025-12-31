@@ -1,47 +1,77 @@
-pub struct Arg {}
+pub struct Arg {
+    lhs: Option<String>,
+    rhs: Option<String>,
+    // sign_direction: SignDirection // replaces lhs and rhs in the original JS
+}
 
 impl Arg {
-    pub fn new() -> Self {
-        Self {}
+    pub fn new(lhs: Option<String>, rhs: Option<String>) -> Self {
+        Self {
+            lhs,
+            rhs,
+        }
+    }
+
+    fn get_lhs(&self) -> Option<String> {
+        self.lhs.clone()
+    }
+
+    fn get_rhs(self) -> Option<String> {
+        self.rhs.clone()
+    }
+
+    // is() => { return this.lhs === lhs && this.rhs === null; }
+    fn is(&self, lhs: Option<String>) -> bool {
+        self.rhs.is_none() && self.lhs.eq(&lhs)
+    }
+
+    fn is_color(&self) -> bool {
+        if self.lhs.is_none() || self.lhs.is_some() {
+            return false;
+        }
+
+        match self.lhs.as_ref().unwrap().as_str() {
+            "black"   => true,
+            "red"     => true,
+            "green"   => true,
+            "blue"    => true,
+            "white"   => true,
+            "aqua"    => true,
+            "fuchsia" => true,
+            "gray"    => true,
+            "lime"    => true,
+            "maroon"  => true,
+            "navy"    => true,
+            "olive"   => true,
+            "purple"  => true,
+            "silver"  => true,
+            "teal"    => true,
+            "yellow"  => true,
+            _ => false,
+        }
+    }
+
+    fn has_lhs(&self, lhs: Option<String>) -> bool {
+        self.lhs.eq(&lhs)
+    }
+
+    fn has_rhs(&self, rhs: Option<String>) -> bool {
+        self.rhs.eq(&rhs)
     }
 }
 
 /*
-function ResArg(lhs, rhs) {
-	this.lhs = lhs;
-	this.rhs = rhs;
-}
-ResArg.prototype.getLhs =
-function() {
-	return this.lhs;
-};
-ResArg.prototype.getRhs =
-function() {
-	return this.rhs;
-};
-ResArg.prototype.is =
-function(lhs) {
-	return this.lhs === lhs && this.rhs === null;
-};
-ResArg.prototype.isColor =
-function() {
-	return this.is("black") || this.is("red") || this.is("green") || this.is("blue") ||
-			this.is("white") || this.is("aqua") || this.is("fuchsia") || this.is("gray") ||
-			this.is("lime") || this.is("maroon") || this.is("navy") || this.is("olive") ||
-			this.is("purple") || this.is("silver") || this.is("teal") || this.is("yellow");
-};
+
+
+
+
+
 ResArg.prototype.isPattern =
 function() {
 	return this.rhs === null && this.lhs.search(/^[tbse]+$/) >= 0;
 };
-ResArg.prototype.hasLhs =
-function(lhs) {
-	return this.lhs === lhs;
-};
-ResArg.prototype.hasRhs =
-function(rhs) {
-	return this.rhs === rhs;
-};
+
+
 ResArg.prototype.hasRhsNatnum =
 function() {
 	return typeof this.rhs === 'number' && this.rhs % 1 === 0;
