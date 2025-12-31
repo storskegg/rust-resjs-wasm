@@ -73,7 +73,7 @@ pub struct Globals {
 
 impl Globals {
     pub fn new(direction: Option<Direction>, size: Option<i32>) -> Self {
-        Globals {
+        Self {
             direction: direction.unwrap_or(Direction::Hlr),
             size_header: size.unwrap_or(1),
             size: size.unwrap_or(1),

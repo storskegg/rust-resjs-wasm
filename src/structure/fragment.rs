@@ -4,7 +4,7 @@ pub struct FragmentArgs {
     globals: Globals,
     direction: Direction,
     size: f64,
-    switchs: String,
+    switches: String,
     hiero: String
 }
 
@@ -12,8 +12,8 @@ pub struct FragmentArgs {
 pub struct Fragment {}
 
 impl Fragment {
-    pub fn new() -> Fragment {
-        Fragment {}
+    pub fn new() -> Self {
+        Self {}
     }
 }
 
@@ -21,7 +21,7 @@ impl Fragment {
 function ResFragment(args) {
 	if (args.l) {
 		var argList = args.l;
-		var switchs = args.sw;
+		var switches = args.sw;
 		var hiero = args.h;
 		this.direction = null;
 		this.size = null;
@@ -33,14 +33,14 @@ function ResFragment(args) {
 			else if (arg.hasLhs("size") && arg.hasRhsNonzeroReal())
 				this.size = arg.getRhs();
 		}
-		this.switchs = switchs;
+		this.switches = switches;
 		this.hiero = hiero;
 		this.propagateBack();
 		this.propagate();
 	} else {
 		this.direction = args.direction;
 		this.size = args.size;
-		this.switchs = args.switchs;
+		this.switches = args.switches;
 		this.hiero = args.hiero;
 		this.propagateBack();
 		this.propagate();
@@ -59,7 +59,7 @@ function() {
 ResFragment.prototype.toString =
 function() {
 	var s = this.headerString();
-	s += this.switchs.toString();
+	s += this.switches.toString();
 	if (this.hiero !== null)
 		s += this.hiero.toString();
 	return s;
@@ -68,13 +68,13 @@ ResFragment.prototype.propagateBack =
 function() {
 	if (this.hiero !== null) {
 		var sw = this.hiero.propagateBack();
-		this.switchs = this.switchs.join(sw);
+		this.switches = this.switches.join(sw);
 	}
 };
 ResFragment.prototype.propagate =
 function() {
 	this.globals = new ResGlobals(this.direction, this.size);
-	this.globals = this.switchs.update(this.globals);
+	this.globals = this.switches.update(this.globals);
 	if (this.hiero !== null)
 		this.globals = this.hiero.propagate(this.globals, this.globals.direction);
 };
