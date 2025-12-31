@@ -1,6 +1,6 @@
 use std::cmp::PartialEq;
 use std::collections::HashMap;
-use crate::aux::Context;
+use crate::aux::{Context, Rectangle};
 
 pub enum ShadingPattern {
     XIsY,
@@ -17,6 +17,17 @@ impl PartialEq for ShadingPattern {
     }
 }
 
+/// MinMaxPair could have been a tuple, but a struct doesn't use any extra memory, and the human-
+/// expressive "min" and "max" fields improve readability, and thus fewer mistakes while maintaining
+/// code.
+#[derive(Copy, Clone)]
+struct MinMaxPair {
+    min: i32,
+    max: i32
+}
+
+type MinMaxPairs = Vec<MinMaxPair>;
+
 
 // Maps x coordinate (on x axis) to list of pairs of x coordinates
 // each delimiting a line segment of shading (hatching).
@@ -26,7 +37,7 @@ impl PartialEq for ShadingPattern {
 pub struct Shading {
     res_context: Option<Context>,
     is_mirrored: bool,
-    x_to_pairs: HashMap<i32, Vec<(f64, f64)>>
+    x_to_pairs: HashMap<i32, MinMaxPairs>
 }
 
 impl Shading {
@@ -43,7 +54,104 @@ impl Shading {
         self.res_context.is_some() && self.res_context.as_ref().unwrap().shading_pattern == ShadingPattern::XIsMinusY && self.is_mirrored
     }
 
-    
+    fn add(&mut self, x: i32, x_min: i32, x_max: i32) {
+        let pair: MinMaxPair = MinMaxPair{min: x_min, max: x_max};
+
+        // "add-sert"
+        if self.x_to_pairs.contains_key(&x) {
+            self.x_to_pairs.get_mut(&x).unwrap().push(pair);
+        } else {
+            self.x_to_pairs.insert(x, MinMaxPairs::from([pair]));
+        }
+    }
+
+    /// add_rect abides the original JS as closely as possible. Because Rust prohibits comparison
+    /// of f64 values (e.g. a < b) as part of its built-in safeties, and NaN being an f64 type, this
+    /// method does a lot of flip-flopping between i32 and f64 types. I've done my best to minimize
+    /// this to help maintain efficiency.
+    fn add_rect(&mut self, rect: Rectangle) {
+        let x: f64 = rect.x() as f64;
+        let y: f64 = rect.y() as f64;
+        let w: f64 = rect.width() as f64;
+        let h: f64 = rect.height() as f64;
+
+        let ctx = self.res_context.as_ref().unwrap();
+        let sep = ctx.shading_sep;
+
+        // TODO: investigate whether sep is really a float. make adjustments below if it is i32
+        if self.common_pattern() {
+            let x_axis_min: i32 = (((x + y) / sep).floor() * sep) as i32;
+            let x_axis_max: i32 = (((x + w + y + h) / sep).ceil() * sep) as i32;
+
+            // TIL... Rust doesn't have a classic for loop, so let's stitch one together
+            let mut x_axis: i32 = x_axis_min; // for x_axis = x_axis_min; ...; ...
+            let mut x_axis_f: f64 = x_axis as f64; // save on memory allocations per loop cycle
+            while x_axis <= x_axis_max { // for ...; x_axis <= x_axis_max; ...
+                let x_min: i32 = x.max(x_axis_f - y - h) as i32;
+                let x_max: i32 = (x+w).min(x_axis_f - y) as i32;
+
+                if x_min < x_max {
+                    self.add(x_axis, x_min, x_max);
+                }
+                x_axis += sep as i32; // for ...; ...; x_axis += sep
+                x_axis_f = x_axis as f64; // halve the i32/f64 conversions per loop cycle
+            }
+            // END our "for" loop
+        } else {
+            let x_axis_min: i32 = (((x - y - h) / sep).floor() * sep) as i32;
+            let x_axis_max: i32 = (((x + w - y) / sep).ceil() * sep) as i32;
+
+            let mut x_axis: i32 = x_axis_min;
+            let mut x_axis_f: f64 = x_axis as f64;
+            while x_axis <= x_axis_max {
+                let x_min: i32 = x.max(x_axis_f + y) as i32;
+                let x_max: i32 = (x+w).min(x_axis_f + y + h) as i32;
+
+                if x_min < x_max {
+                    self.add(x_axis, x_min, x_max);
+                }
+                x_axis += sep as i32;
+                x_axis_f = x_axis as f64;
+            }
+        }
+    }
+
+    // Connect lines of shading with small interruption.
+    fn compress(&mut self) {
+        for pairs in self.x_to_pairs.values_mut() {
+            let mut changed = true;
+
+            while changed {
+                for i in 0..pairs.len() {
+                    let pair1 = pairs[i];
+
+                    for j in 0..i {
+                        let pair2 = pairs[j];
+
+                        if overlap(pair1, pair2) {
+                            pairs[j] = join(pair1, pair2);
+                            pairs.remove(i);
+                            changed = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// GEOMETRY.shading
+
+fn overlap(pair1: MinMaxPair, pair2: MinMaxPair) -> bool {
+    let margin: i32 = 2; // TODO: Magic number?
+    (pair1.min >= pair2.min - margin && pair1.min <= pair2.max + margin) ||
+        (pair1.max >= pair2.min - margin && pair1.max <= pair2.max + margin)
+}
+
+fn join(pair1: MinMaxPair, pair2: MinMaxPair) -> MinMaxPair {
+    MinMaxPair{min: pair1.min.min(pair2.min), max: pair1.max.max(pair2.max)}
 }
 
 /*
@@ -51,74 +159,11 @@ impl Shading {
 // Shading.
 
 
-ResShading.prototype.add =
-function(x, xMin, xMax) {
-	if (this.xToPairs[x] === undefined)
-		this.xToPairs[x] = [];
-	this.xToPairs[x].push([xMin, xMax]);
-};
-// rect: ResRectangle
-ResShading.prototype.addRect =
-function(rect) {
-	var x = rect.x;
-	var y = rect.y;
-	var w = rect.width;
-	var h = rect.height
-	var sep = this.resContext.shadingSep;
-	if (this.commonPattern()) {
-		var xAxisMin = Math.floor((x + y) / sep) * sep;
-		var xAxisMax = Math.ceil(x + w + y + h);
-		for (var xAxis = xAxisMin; xAxis <= xAxisMax; xAxis += sep) {
-			var xMin = Math.max(x, xAxis - y - h);
-			var xMax = Math.min(x + w, xAxis - y);
-			if (xMin < xMax)
-				this.add(xAxis, xMin, xMax);
-		}
-	} else {
-		var xAxisMin = Math.floor((x - y - h) / sep) * sep;
-		var xAxisMax = Math.ceil(x + w - y);
-		for (var xAxis = xAxisMin; xAxis <= xAxisMax; xAxis += sep) {
-			var xMin = Math.max(x, xAxis + y);
-			var xMax = Math.min(x + w, xAxis + y + h);
-			if (xMin < xMax)
-				this.add(xAxis, xMin, xMax);
-		}
-	}
-};
-// Connect lines of shading with small interruption.
-ResShading.prototype.compress =
-function() {
-	for (var x in this.xToPairs) {
-		var pairs = this.xToPairs[x];
-		var changed = true;
-		while (changed) {
-			changed = false;
-			for (var i = 0; i < pairs.length; i++) {
-				var pair1 = pairs[i];
-				for (var j = 0; j < i; j++) {
-					var pair2 = pairs[j];
-					if (this.overlap(pair1, pair2)) {
-						pairs[j] = this.join(pair1, pair2);
-						pairs.splice(i, 1);
-						i--;
-						changed = true;
-						break;
-					}
-				}
-			}
-		}
-	}
-};
-ResShading.prototype.overlap =
-function(pair1, pair2) {
-	var margin = 2;
-	return (pair1[0] >= pair2[0] - margin && pair1[0] <= pair2[1] + margin) ||
-		(pair1[1] >= pair2[0] - margin && pair1[1] <= pair2[1] + margin);
-};
-ResShading.prototype.join =
-function(pair1, pair2) {
-	return [Math.min(pair1[0], pair2[0]), Math.max(pair1[1], pair2[1])];
-};
+
+
+
+
+
 ResShading.prototype.print =
 function(ctx) {
 	for (var xAxis in this.xToPairs) {

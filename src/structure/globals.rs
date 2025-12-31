@@ -62,8 +62,8 @@ impl Direction {
 #[derive(Clone)]
 pub struct Globals {
     direction: Direction,
-    size_header: f64,
-    size: f64,
+    size_header: i32,
+    size: i32,
     color: String,
     shade: bool,
     sep: f64,
@@ -72,11 +72,11 @@ pub struct Globals {
 }
 
 impl Globals {
-    pub fn new(direction: Option<Direction>, size: Option<f64>) -> Self {
+    pub fn new(direction: Option<Direction>, size: Option<i32>) -> Self {
         Globals {
             direction: direction.unwrap_or(Direction::Hlr),
-            size_header: size.unwrap_or(1.0),
-            size: size.unwrap_or(1.0),
+            size_header: size.unwrap_or(1),
+            size: size.unwrap_or(1),
             color: "black".to_string(),
             shade: false,
             sep: 1.0,
@@ -105,7 +105,7 @@ impl Globals {
         self.direction.is_rl()
     }
 
-    fn update(&self, size: f64) -> Self {
+    fn update(&self, size: i32) -> Self {
         let cur_direction = self.direction();
         if self.size == size {
             return self.clone();

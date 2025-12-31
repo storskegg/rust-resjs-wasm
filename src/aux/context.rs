@@ -33,9 +33,9 @@ pub struct Context {
     // fonts
     pub fonts: Vec<Fonts>,
     // unit font size
-    pub em_size_px: f64,
+    pub em_size_px: i32,
     // note size
-    pub note_size_px: f64,
+    pub note_size_px: i32,
 
     // separation between groups
     pub op_sep_em: f64, // normal separation for operators
@@ -47,7 +47,7 @@ pub struct Context {
     pub shading_sep: f64,
     pub shading_thickness: f64,
     pub shading_color: String,
-    pub shading_pattern: shading::ShadingPattern, // is one of "x_is_y", "x_is_minus_y"
+    pub shading_pattern: shading::ShadingPattern,
 
     // formatting
     pub iterate_limit: f64, // how often attempted to scaled down group
@@ -62,8 +62,8 @@ pub struct Context {
     pub move_step_factor: f64, // for decreasing move step
 
     // rendering
-    pub margin_px: f64,
-    pub box_overlap_px: f64,
+    pub margin_px: i32,
+    pub box_overlap_px: i32,
 
     // notes
     pub note_color: String, // default color of notes
@@ -85,9 +85,9 @@ impl Context {
             // fonts
             fonts,
             // unit font size
-            em_size_px: 36.0,
+            em_size_px: 36,
             // note size
-            note_size_px: 12.0,
+            note_size_px: 12,
 
             // separation between groups
             op_sep_em: 0.15,
@@ -114,8 +114,8 @@ impl Context {
             move_step_factor: 0.6,
 
             // rendering
-            margin_px: 2.0,
-            box_overlap_px: 1.0,
+            margin_px: 2,
+            box_overlap_px: 1,
 
             note_color: "black".to_string(),
             note_margin: 2.0,
@@ -129,14 +129,14 @@ impl Context {
     }
 
     pub fn mil_em_to_px(&self, size_mil_em: f64) -> f64 {
-        size_mil_em * self.em_size_px / 1000.0
+        size_mil_em * (self.em_size_px as f64) / 1000.0
     }
 
-    pub fn px_to_mil_em(&self, size_px: f64) -> f64 {
-        if size_px == f64::MAX {
+    pub fn px_to_mil_em(&self, size_px: i32) -> f64 {
+        if (size_px as f64) == f64::MAX {
             f64::MAX // HAHAHA ja probably not. But here for good practice and to be safe :-)
         } else {
-            1000.0 * size_px / self.em_size_px
+            1000.0 * (size_px as f64) / (self.em_size_px as f64)
         }
     }
 
