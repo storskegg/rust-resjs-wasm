@@ -3,7 +3,7 @@
 ## What
 
 This repo represents my attempt to port Dr Nederhof's `resjs` to Rust. I will only be working on
-porting `res_concet.js` to Rust, and have no plans to port the other `*_concat.js` files (e.g. the editor).
+porting `res_concat.js` to Rust, and have no plans to port the other `*_concat.js` files (e.g. the editor).
 
 ## Why
 
